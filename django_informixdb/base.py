@@ -34,7 +34,7 @@ class DatabaseWrapper(BaseDatabaseWrapper):
 
     DRIVER_MAP = {
         'DARWIN': '/Applications/IBM/informix/lib/cli/iclit09b.dylib',
-        'LINUX': '/opt/IBM/informixlib/iclit09b.so',
+        'LINUX': '/opt/IBM/informix/lib/cli/iclit09b.so',
     }
 
     data_types = {

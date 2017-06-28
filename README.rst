@@ -117,6 +117,48 @@ and also in ``/etc/services``:
 You should now be able to point Django to our local test database using the syntax detailed above.
 
 
+Using Django InformixDB with docker-compose
+-------------------------------------------
+
+It is possible to use the Informix developer docker image with docker-compose with a little effort.
+
+Example docker-compose.yml
+
+.. code-block:: yaml
+
+    version: '3'
+
+    services:
+        db:
+            image: ibmcom/informix-developer-database
+            tty: true # Needed to ensure container doesn't self terminate
+            environment:
+                LICENSE: accept
+            privileged: true
+            ports:
+                - "9088:9088"
+                - "9089:9089"
+                - "27017:27017"
+                - "27018:27018"
+                - "27883:27883"
+
+
+The key entry in the compose file which is out of the ordinary is `tty: true`. This allocates a (virtual) TTY to the container. The Informix developer database container expects a `tty` and terminates without one when run inside docker-compose.
+
+Once it is up and running with `docker-compose up` you can run a `bash` shell on the running container with:
+
+.. code-block:: bash
+
+    docker exec -it informix_db_1 bash
+
+
+Where `informix_db_1` is the name of the running container. From this shell you can create your DB with `dbaccess` etc.
+
+.. warning::
+
+    This approach still requires the SDK to installed locally and the appropriate environmental variables to be set up. Along with entries in `sqlhosts` and `/etc/services`
+
+
 Testing against an Informix Database
 ------------------------------------
 
